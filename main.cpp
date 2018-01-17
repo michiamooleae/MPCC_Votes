@@ -17,6 +17,7 @@ int main()
     QString html = QString::fromUtf8(contents.c_str());
     QStringList str = html.split("\n");
 
+
     std::map<std::string, int> votes;
 
     for (int i = 0; i < str.size(); ++i)
