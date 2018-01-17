@@ -6,7 +6,6 @@
 #include <stack>
 #include <map>
 
-#include <QDebug>
 #include <QStringList>
 #include <QString>
 
@@ -16,7 +15,6 @@ int main()
     auto contents = httpRetriever.getHtmlContents();
     QString html = QString::fromUtf8(contents.c_str());
     QStringList str = html.split("\n");
-
 
     std::map<std::string, int> votes;
 
@@ -49,7 +47,7 @@ int main()
                 ppff.pop();
             }
 
-            //qDebug() << username;
+            //std::cout << username << "\n";
 
             while (!str.at(i).contains("post_text"))
             {
@@ -62,18 +60,18 @@ int main()
             text = text.remove(QString::fromStdString("\t\t\t\t"), Qt::CaseInsensitive);
             text = text.remove(QRegExp("[^0-9]", Qt::CaseInsensitive));
 
-            //qDebug() << text;
+            //std::cout << text << "\n";
 
             try
             {
-                if (votes.count(username.toStdString()) == 0)
+                if (votes.find(username.toStdString()) == votes.end())
                 {
                     votes[username.toStdString()] = std::stoi(text.toStdString());
                 }
             }
             catch (const std::out_of_range&)
             {
-                qDebug() << "Wrong vote message format: " << text;
+                std::cerr << "Wrong vote message format: " << text.toStdString() << "\n";
             }
 
         }
@@ -84,7 +82,7 @@ int main()
 
     for (const auto& vote : votes)
     {
-        qDebug() << QString::fromStdString(vote.first) << ": " << vote.second;
+        std::cout << vote.first << ": " << vote.second << "\n";
 
         if (vote.second == 1)
         {
@@ -96,8 +94,7 @@ int main()
         }
     }
 
-    qDebug() << "---------------";
-    qDebug() << one << " " << two;
+    std::cout << "---------------\n" << one << " " << two << std::endl;
 
     return EXIT_SUCCESS;
 }

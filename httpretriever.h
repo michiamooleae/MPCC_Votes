@@ -5,14 +5,11 @@
 
 #include <curl/curl.h>
 
-#include <QStringList>
-
 class HttpRetriever
 {
   public:
     HttpRetriever(char *url);
     ~HttpRetriever();
-    bool connectionSuccess();
     std::string getHtmlContents();
   private:
     bool initializeConnection();
