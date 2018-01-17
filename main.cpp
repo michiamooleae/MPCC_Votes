@@ -1,32 +1,35 @@
 #include "httpretriever.h"
 
 #include <iostream>
-#include <vector>
 #include <iterator>
-#include <stack>
-#include <map>
 
 #include <QStringList>
 #include <QString>
+#include <QMap>
+#include <QStack>
 
 int main()
 {
-    HttpRetriever httpRetriever("https://en.numista.com/forum/topic66074.html");
+    //HttpRetriever httpRetriever("https://en.numista.com/forum/topic66074.html");
+    HttpRetriever httpRetriever("https://fr.numista.com/forum/topic66095.html");
     auto contents = httpRetriever.getHtmlContents();
-    QString html = QString::fromUtf8(contents.c_str());
+    QString html = QString::fromStdString(contents);
     QStringList str = html.split("\n");
 
-    std::map<std::string, int> votes;
+    QMap<QString, int> votes;
 
-    for (int i = 0; i < str.size(); ++i)
+    for (auto it = str.cbegin(); it != str.cend(); ++it)
+    //for (int i = 0; i < str.size(); ++i)
     {
-        if(str.at(i).contains("<tr id=", Qt::CaseInsensitive))
+        if(it->contains("<tr id=", Qt::CaseInsensitive))
+        //if(str.at(i).contains("<tr id=", Qt::CaseInsensitive))
         {
             QString text;
-            text = str.at(i+2);
+            text = *(it+2);
+            //text = str.at(i+2);
             text = text.remove(QString::fromStdString("</a></strong>"), Qt::CaseInsensitive);
 
-            std::stack<char> ppff;
+            QStack<char> ppff;
 
             auto ssssss = text.toStdString();
             for (auto itt = ssssss.rbegin(); itt != ssssss.rend(); ++itt)
@@ -49,40 +52,36 @@ int main()
 
             //std::cout << username << "\n";
 
-            while (!str.at(i).contains("post_text"))
+            while (!it->contains("post_text"))
             {
-                i++;
-                text = str.at(i);
+                //i++;
+                std::advance(it,1);
+                //text = str.at(i); // TODO: is it needed?
             }
 
-            i++;
-            text = str.at(i);
+            //i++;
+            std::advance(it,1);
+            //text = str.at(i);
+            text = *it;
             text = text.remove(QString::fromStdString("\t\t\t\t"), Qt::CaseInsensitive);
             text = text.remove(QRegExp("[^0-9]", Qt::CaseInsensitive));
 
             //std::cout << text << "\n";
 
-            try
+            if (votes.find(username) == votes.end() && text.length() == 1)
             {
-                if (votes.find(username.toStdString()) == votes.end())
-                {
-                    votes[username.toStdString()] = std::stoi(text.toStdString());
-                }
+                //votes[username] = std::stoi(text.toStdString());
+                votes[username] = text.toInt();
             }
-            catch (const std::out_of_range&)
-            {
-                std::cerr << "Wrong vote message format: " << text.toStdString() << "\n";
-            }
-
         }
     }
 
     unsigned int one = 0;
     unsigned int two = 0;
 
-    for (const auto& vote : votes)
+    for (const auto& vote : votes.toStdMap())
     {
-        std::cout << vote.first << ": " << vote.second << "\n";
+        std::cout << vote.first.toStdString() << ": " << vote.second << "\n";
 
         if (vote.second == 1)
         {
