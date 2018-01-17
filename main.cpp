@@ -19,14 +19,11 @@ int main()
     QMap<QString, int> votes;
 
     for (auto it = str.cbegin(); it != str.cend(); ++it)
-    //for (int i = 0; i < str.size(); ++i)
     {
         if(it->contains("<tr id=", Qt::CaseInsensitive))
-        //if(str.at(i).contains("<tr id=", Qt::CaseInsensitive))
         {
             QString text;
             text = *(it+2);
-            //text = str.at(i+2);
             text = text.remove(QString::fromStdString("</a></strong>"), Qt::CaseInsensitive);
 
             QStack<char> ppff;
@@ -50,27 +47,19 @@ int main()
                 ppff.pop();
             }
 
-            //std::cout << username << "\n";
-
             while (!it->contains("post_text"))
             {
-                //i++;
                 std::advance(it,1);
-                //text = str.at(i); // TODO: is it needed?
             }
 
-            //i++;
             std::advance(it,1);
-            //text = str.at(i);
+
             text = *it;
             text = text.remove(QString::fromStdString("\t\t\t\t"), Qt::CaseInsensitive);
             text = text.remove(QRegExp("[^0-9]", Qt::CaseInsensitive));
 
-            //std::cout << text << "\n";
-
             if (votes.find(username) == votes.end() && text.length() == 1)
             {
-                //votes[username] = std::stoi(text.toStdString());
                 votes[username] = text.toInt();
             }
         }

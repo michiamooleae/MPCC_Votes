@@ -8,9 +8,9 @@
 class HttpRetriever
 {
   public:
-    HttpRetriever(char *url);
+    explicit HttpRetriever(char *url);
     ~HttpRetriever();
-    std::string getHtmlContents();
+    std::string getHtmlContents() const;
   private:
     bool initializeConnection();
     static int writer(char *data, size_t size, size_t nmemb, std::string *writerData);

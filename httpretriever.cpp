@@ -29,7 +29,7 @@ HttpRetriever::~HttpRetriever()
     curl_easy_cleanup(m_connection);
 }
 
-std::string HttpRetriever::getHtmlContents()
+std::string HttpRetriever::getHtmlContents() const
 {
     return m_htmlContents;
 }
