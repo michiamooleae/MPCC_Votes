@@ -5,10 +5,14 @@ CONFIG -= app_bundle
 
 QMAKE_MAC_SDK = macosx10.12
 
-HEADERS += httpretriever.h
+HEADERS += httpretriever.h \
+    mpcc.h \
+    uncroppedimagesfinder.h
 
 SOURCES += main.cpp \
-    httpretriever.cpp
+    httpretriever.cpp \
+    mpcc.cpp \
+    uncroppedimagesfinder.cpp
 
 macx: LIBS += -L$$PWD/../../../../usr/local/Cellar/curl/7.46.0/lib/ -lcurl
 
