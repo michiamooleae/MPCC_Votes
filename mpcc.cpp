@@ -1,21 +1,13 @@
 #include "mpcc.h"
 
-#include "httpretriever.h"
-
 #include <iostream>
 #include <iterator>
 #include <stack>
 
-QStringList MPCC::get_html_contents()
+void MPCC::parse_html_contents()
 {
-    HttpRetriever httpRetriever(m_URL);
-    auto contents = httpRetriever.getHtmlContents();
-    QString html = QString::fromStdString(contents);
-    return html.split("\n");
-}
+    QStringList list = m_httpRetriever->getHtmlContents();
 
-void MPCC::parse_html_contents(const QStringList& list)
-{
     for (auto it = list.cbegin(); it != list.cend(); ++it)
     {
         if(it->contains("<tr id=", Qt::CaseInsensitive))
@@ -87,8 +79,7 @@ void MPCC::print_votes()
 }
 
 void MPCC::get_voting_results()
-{
-    QStringList html_contents = get_html_contents();
-    parse_html_contents(html_contents);
+{ 
+    parse_html_contents();
     print_votes();
 }

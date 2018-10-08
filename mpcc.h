@@ -1,34 +1,35 @@
 #ifndef MPCC_H
 #define MPCC_H
 
-#include <unordered_map>
-#include <string>
+#include "httpretriever.h"
 
-#include <QString>
-#include <QStringList>
+#include <memory>
+#include <string>
+#include <unordered_map>
 
 class MPCC
 {
 public:
-    MPCC(const MPCC&) = delete;
-
-    explicit MPCC(char* URL) : m_URL(URL)
+    explicit MPCC(char* URL)
     {
+        m_httpRetriever.reset(new HttpRetriever(URL));
     }
+
+    MPCC() = delete;
+    MPCC(const MPCC&) = delete;
+    MPCC& operator=(const MPCC&) = delete;
+    MPCC(const MPCC&&) = delete;
+    MPCC& operator=(const MPCC&&) = delete;
 
     void get_voting_results();
 
 private:
-    MPCC();
-
-    QStringList get_html_contents();
-
-    void parse_html_contents(const QStringList& list);
+    void parse_html_contents();
 
     void print_votes();
 
 private:
-    char* m_URL;
+    std::unique_ptr<HttpRetriever> m_httpRetriever;
     std::unordered_map<std::string, int> m_votes;
 };
 

@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include <QString>
+#include <QStringList>
+
 #include <curl/curl.h>
 
 class HttpRetriever
@@ -10,7 +13,7 @@ class HttpRetriever
   public:
     explicit HttpRetriever(char *url);
     ~HttpRetriever();
-    std::string getHtmlContents() const;
+    QStringList getHtmlContents() const;
   private:
     bool initializeConnection();
     static int writer(char *data, size_t size, size_t nmemb, std::string *writerData);

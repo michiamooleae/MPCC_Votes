@@ -29,9 +29,10 @@ HttpRetriever::~HttpRetriever()
     curl_easy_cleanup(m_connection);
 }
 
-std::string HttpRetriever::getHtmlContents() const
+QStringList HttpRetriever::getHtmlContents() const
 {
-    return m_htmlContents;
+    QString html = QString::fromStdString(m_htmlContents);
+    return html.split("\n");
 }
 
 bool HttpRetriever::initializeConnection()
