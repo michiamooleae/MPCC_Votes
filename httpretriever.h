@@ -11,7 +11,7 @@
 class HttpRetriever
 {
   public:
-    explicit HttpRetriever(char *url);
+    explicit HttpRetriever(const char *url);
     ~HttpRetriever();
     QStringList getHtmlContents() const;
   private:
@@ -21,7 +21,7 @@ class HttpRetriever
     bool m_successfulConnection;
     CURL *m_connection;
     CURLcode m_curlCode;
-    char *m_url;
+    const char *m_url;
     char m_errorBuffer[CURL_ERROR_SIZE];
     std::string m_htmlContents;
 };

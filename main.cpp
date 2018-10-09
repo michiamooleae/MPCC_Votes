@@ -2,6 +2,8 @@
 #include "mpcc.h"
 #endif
 
+#include "uncroppedimagesfinder.h"
+
 int main()
 {
  #if 0
@@ -9,5 +11,7 @@ int main()
     votes.get_voting_results();
 #endif
 
+    UncroppedImagesFinder uif("New Caledonia");
+    uif.print();
 
 }

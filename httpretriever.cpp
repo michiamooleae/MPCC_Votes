@@ -1,7 +1,8 @@
 #include "httpretriever.h"
 
-HttpRetriever::HttpRetriever(char *url)
-    : m_successfulConnection(false), m_htmlContents("")
+HttpRetriever::HttpRetriever(const char *url)
+    : m_successfulConnection(false),
+      m_htmlContents("")
 {
     m_url = url;
     m_connection = NULL;
